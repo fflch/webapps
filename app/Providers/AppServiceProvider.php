@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +12,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        Gate::define('admins', function($user){
+            $admins = explode(',', trim(config('webapps.admins')));
+            //terá que ser algum outro parâmetro, pois há a possibilidade de logar no sistema sem codpes.
+            return in_array($user->codpes ?? $user->id, $admins); 
+        });
     }
 
     /**

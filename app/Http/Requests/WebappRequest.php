@@ -24,7 +24,8 @@ class WebappRequest extends FormRequest
     {
         return [
             'dominio' => 'required',
-            'url_github' => ['nullable','url'],
+            //'url_github' => ['nullable','url'],
+            'url_github' => ['nullable'],
             'justificativa' => 'required',
             'tipo' => 'required',
             'database_username' => 'nullable',
@@ -42,7 +43,7 @@ class WebappRequest extends FormRequest
             'dominio.required' => 'O domínio é obrigatório',
             'justificativa.required' => 'A justificativa é obrigatória',
             'tipo.required' => 'O tipo é obrigatório',
-            'url_github.url' => 'url'
+            //'url_github.url' => 'url'
         ];
     }
 

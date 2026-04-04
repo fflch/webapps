@@ -14,17 +14,17 @@
 
                         <div class="mb-3">
                             <label class="form-label">Database Name</label>
-                            <input type="text" name="database_name" class="form-control" placeholder="ex: my_database">
+                            <input type="text" name="database_name" value="{{ old('database_name',$webapp->database_name) }}" class="form-control" placeholder="ex: my_database">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Database Username</label>
-                            <input type="text" name="database_username" class="form-control" placeholder="ex: db_user">
+                            <input type="text" name="database_username" value="{{ old('database_username',$webapp->database_username) }}" class="form-control" placeholder="ex: db_user">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Database Password</label>
-                            <input type="password" name="database_password" class="form-control">
+                            <input type="password" value="{{ old('database_password',$webapp->database_password) }}" name="database_password" class="form-control">
                         </div>
 
                     </div>
@@ -42,17 +42,17 @@
 
                         <div class="mb-3">
                             <label class="form-label">Bucket Name</label>
-                            <input type="text" name="bucket_name" class="form-control" placeholder="ex: my-bucket">
+                            <input type="text" name="bucket_name" value="{{ old('bucket_name', $webapp->bucket_name) }}" class="form-control" placeholder="ex: my-bucket">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Bucket Username</label>
-                            <input type="text" name="bucket_username" class="form-control" placeholder="ex: bucket_user">
+                            <input type="text" name="bucket_username" value="{{ old('bucket_username', $webapp->bucket_username) }}"  class="form-control" placeholder="ex: bucket_user">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Bucket Password</label>
-                            <input type="password" name="bucket_password" class="form-control">
+                            <input type="password" value="{{ old('bucket_password', $webapp->bucket_password) }}"  name="bucket_password" class="form-control">
                         </div>
 
                     </div>
