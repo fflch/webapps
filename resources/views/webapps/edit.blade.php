@@ -3,10 +3,10 @@
 <div class="card">
     <div class="card-header"><b>Editar</b></div>
     <div class="card-body">
-        <form method="post" action="/update/{{ $webapp->id }}">
+        <form method="post" action="/webapps/update/{{ $webapp->id }}">
             @method("put")
             @csrf
-            @include('partials.form_solicitacao')
+            @include('partials.form')
         </form>
     </div>
 </div>

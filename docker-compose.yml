@@ -1,0 +1,44 @@
+services:
+  webapps:
+    image: webapps
+    container_name: webapps
+    ports:
+      - "8000:80"
+    depends_on:
+      - mariadb
+    networks:
+      - webapps-network
+    volumes:
+      - ./:/var/www/html
+    environment:
+      HOME: /tmp
+    user: "${UID:-1000}:${GID:-1000}"
+
+  mariadb:
+    image: mariadb:11
+    container_name: webapps_mariadb
+    restart: always
+    environment:
+      MYSQL_DATABASE: webapps
+      MYSQL_USER: webapps
+      MYSQL_PASSWORD: webapps
+      MYSQL_ROOT_PASSWORD: webapps
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - webapps-network
+
+  selenium:
+    image: selenium/standalone-chrome
+    container_name: webapps_selenium
+    ports:
+      - "7900:7900" # VNC (pra ver o browser rodando)
+    networks:
+      - webapps-network
+    shm_size: 2gb
+
+networks:
+  webapps-network:
+
+volumes:
+  mariadb_data:

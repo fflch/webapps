@@ -3,10 +3,10 @@
     <div class="card shadow-sm">
         <div class="card-header fw-bold"><b>Solicitação</b></div>
         <div class="card-body">
-            <form method="post" action="/store">
+            <form method="post" action="/webapps/store">
                 @method('post')
                 @csrf
-                @include('partials.form_solicitacao')
+                @include('webapps.partials.form')
             </form>
         </div>
     </div>
