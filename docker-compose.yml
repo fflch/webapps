@@ -23,8 +23,6 @@ services:
       MYSQL_USER: webapps
       MYSQL_PASSWORD: webapps
       MYSQL_ROOT_PASSWORD: webapps
-    volumes:
-      - mariadb_data:/var/lib/mysql
     networks:
       - webapps-network
 
@@ -37,8 +35,39 @@ services:
       - webapps-network
     shm_size: 2gb
 
+  gwmariadb:
+    image: ghcr.io/fflch/gwmariadb:latest
+    container_name: webapps_gwmariadb
+    depends_on:
+      - mariadb
+    networks:
+      - webapps-network
+    ports:
+      - "8306:3306"
+    environment:
+      TOKEN: 123
+      DB_HOST: mariadb
+      DB_NAME: webapps
+      DB_USER: webapps
+      DB_PASS: webapps
+      DB_PORT: 3306
+
+  rustfs:
+      image: rustfs/rustfs:latest
+      container_name: webapps_rustfs
+      ports:
+        - "9100:9000" # API S3 (para enviar arquivos com PHP)
+        - "9101:9001" # Console Web
+      environment:
+        - RUSTFS_VOLUMES=/data
+        - RUSTFS_ADDRESS=0.0.0.0:9000
+        - RUSTFS_CONSOLE_ADDRESS=0.0.0.0:9001
+        - RUSTFS_CONSOLE_ENABLE=true
+        # Defina aqui as chaves de acesso para a API e o Console
+        - RUSTFS_ACCESS_KEY=rustfsadmin
+        - RUSTFS_SECRET_KEY=rustfsadmin123
+      networks:
+        - webapps-network
+
 networks:
   webapps-network:
-
-volumes:
-  mariadb_data:
