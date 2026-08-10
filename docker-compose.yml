@@ -1,6 +1,7 @@
 services:
   webapps:
-    image: webapps
+    build: .
+    image: webapps:latest
     container_name: webapps
     ports:
       - "8000:80"
@@ -23,12 +24,41 @@ services:
       MYSQL_USER: webapps
       MYSQL_PASSWORD: webapps
       MYSQL_ROOT_PASSWORD: webapps
+    volumes:
+      - mariadb_data:/var/lib/mysql
     networks:
       - webapps-network
 
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: webapps_phpmyadmin
+    restart: always
+    depends_on:
+      - mariadb
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: webapps
+    networks:
+      - webapps-network
+
+  selenium:
+    image: selenium/standalone-chrome
+    container_name: webapps_selenium
+    ports:
+      - "7900:7900"
+    networks:
+      - webapps-network
+    shm_size: 2gb
+
+  # No /etc/hosts do seu computador colocar a linha `127.0.0.1 auth.local`
+  # particularidades do protocolo oAuth1 usado na USP
   senhaunica-faker:
     image: uspdev/senhaunica-faker
-    container_name: cursolaravel_senhaunica-faker
+    container_name: webapps_senhaunica-faker
     ports:
       - "3141:3141"
     environment:
@@ -38,46 +68,18 @@ services:
         aliases:
           - auth.local
 
-  selenium:
-    image: selenium/standalone-chrome
-    container_name: webapps_selenium
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: webapps_mailpit
     ports:
-      - "7900:7900" # VNC (pra ver o browser rodando)
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Interface Web
     networks:
       - webapps-network
-    shm_size: 2gb
-
-  gwmariadb:
-    image: ghcr.io/fflch/gwmariadb:latest
-    container_name: webapps_gwmariadb
-    depends_on:
-      - mariadb
-    networks:
-      - webapps-network
-    environment:
-      TOKEN: 123
-      DB_HOST: mariadb
-      DB_NAME: webapps
-      DB_USER: webapps
-      DB_PASS: webapps
-      DB_PORT: 3306
-
-  rustfs:
-      image: rustfs/rustfs:latest
-      container_name: webapps_rustfs
-      ports:
-        - "9100:9000" # API S3 (para enviar arquivos com PHP)
-        - "9101:9001" # Console Web
-      environment:
-        - RUSTFS_VOLUMES=/data
-        - RUSTFS_ADDRESS=0.0.0.0:9000
-        - RUSTFS_CONSOLE_ADDRESS=0.0.0.0:9001
-        - RUSTFS_CONSOLE_ENABLE=true
-        # Defina aqui as chaves de acesso para a API e o Console
-        - RUSTFS_ACCESS_KEY=rustfsadmin
-        - RUSTFS_SECRET_KEY=rustfsadmin123
-      networks:
-        - webapps-network
 
 networks:
   webapps-network:
+
+volumes:
+  mariadb_data:
+
