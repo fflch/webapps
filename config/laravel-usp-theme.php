@@ -1,5 +1,31 @@
 <?php
 
+$dockerMenu = [
+    [
+        'text' => 'Imagens',
+        'url' => '/dockerimages',
+        'can' => 'user'
+    ],
+    [
+        'text' => 'Cadastrar nova imagem',
+        'url' => '/dockerimages/create',
+        'can' => 'user'
+    ]
+];
+
+$appsMenu = [
+    [
+        'text' => 'Meus Apps',
+        'url' => config('app.url') . '/webapps',
+        'can' => 'user'
+    ],
+    [
+        'text' => 'Cadastrar App',
+        'url' => config('app.url') . '/webapps/create',
+        'can' => 'user'
+    ]
+];
+
 $menu = [
     [
         'text' => '<i class="fas fa-home"></i> Home',
@@ -10,15 +36,15 @@ $menu = [
         'key' => 'menu_dinamico',
     ],
     [
-        'text' => 'Meus Apps',
-        'url' => config('app.url') . '/webapps',
+        'text' => 'Apps',
         'can' => 'user',
+        'submenu' => $appsMenu
     ],
     [
-        'text' => 'Cadastrar App',
-        'url' => config('app.url') . '/webapps/create', // com caminho absoluto
+        'text' => 'Docker',
         'can' => 'user',
-    ],
+        'submenu' => $dockerMenu
+    ]
 
 ];
 

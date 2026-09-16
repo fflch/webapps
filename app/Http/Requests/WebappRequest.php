@@ -23,21 +23,19 @@ class WebappRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'dominio' => 'required',
-            'url_github' => ['nullable','url','starts_with:https://github.com/fflch'],
+            'name' => 'required',
             'justificativa' => 'required',
-            'tipo' => 'required',
-
+            'image_id' => 'required',
+            'version' => 'required'
         ];
     }
 
     public function messages(){
         return [
-            'dominio.required' => 'O domínio é obrigatório',
-            'justificativa.required' => 'A justificativa é obrigatória',
-            'tipo.required' => 'O tipo é obrigatório',
-            'url_github.url' => 'A Url precisa começar com https://',
-            'url_github.starts_with' => 'A URL inserida não pertence a fflch'
+            'name.required' => 'O domínio é obrigatório.',
+            'justificativa.required' => 'A justificativa é obrigatória.',
+            'image_id' => 'A imagem do app é obrigatória.',
+            'version.required' => 'A versão da imagme é obrigatória.'
         ];
     }
 
