@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\AppDatabase;
 use App\Services\GwmariadbService;
-use Illuminate\Http\Request;
-use App\Services\WebappService;
 use App\Services\AppDatabaseService;
 use Illuminate\Support\Facades\Http;
+use App\Models\Webapp;
 
 class GwmariadbController extends Controller
 {
@@ -32,9 +31,9 @@ class GwmariadbController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(string $appId)
+    public function store(Webapp $webapp)
     {
-        $webapp = (new WebappService())->getWebappById($appId);
+        /* dump('gw-store', $webapp); */
         $siteName = $webapp->name;
 
         $response = (new GwmariadbService($siteName))->storeDatabase();
@@ -59,7 +58,7 @@ class GwmariadbController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(string $appId) {
-        
+
         return view('gwmariadb.edit');
     }
 
@@ -91,6 +90,7 @@ class GwmariadbController extends Controller
         $response = Http::withHeaders([
             'X-Token' => env('GWMARIADB_TOKEN'),
         ])->get(env('GWMARIADB_URL'));
+        dd(json_encode($response->json()));
 
         return json_encode($response->json());
     }

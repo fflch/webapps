@@ -5,18 +5,23 @@ namespace App\Http\Controllers;
 use App\Http\Requests\WebappRequest;
 use App\Http\Requests\AppUpdateRequest;
 use App\Models\Webapp;
-use App\Services\WebappService;
-use App\Services\DockerImageService;
-use App\Http\Requests\UpdateAppVariableRequest;
 use App\Models\AppVariable;
 use App\Models\DockerImage;
+use App\Actions\AddDominioAction;
+use Illuminate\Support\Facades\DB;
+use App\Actions\StoreAppVariablesAction;
 
 class WebappController extends Controller
 {
+    public function __construct(
+        protected AddDominioAction $addDominioAction
+    ) {}
+
     public function index()
     {
-        $webapps = Webapp::all();
-        return view('webapps.index', ['webapps' => $webapps]);
+        return view('webapps.index', [
+            'webapps' => Webapp::all()
+        ]);
     }
 
     public function show(Webapp $webapp)
@@ -28,62 +33,54 @@ class WebappController extends Controller
 
     public function create(Webapp $webapp)
     {
-        $dockerImages = DockerImage::all();
         return view('webapps.create', [
             'webapp' => $webapp,
-            'docker_images' => $dockerImages
+            'docker_images' =>DockerImage::all()
         ]);
     }
 
     public function edit(Webapp $webapp)
     {
-        $dockerImages = DockerImage::all();
         return view('webapps.edit', [
             'webapp' => $webapp,
-            'docker_images' => $dockerImages
+            'docker_images' =>DockerImage::all()
         ]);
     }
 
     public function update(AppUpdateRequest $request, Webapp $webapp)
     {
-        $webapp = (new WebappService())->updateApp($webapp, $request->validated());
-        session()->flash('alert-success', 'App atualizado com sucesso.');
-        return view('webapps.show', [
-            'webapp' => $webapp
-        ]);
+        $validated = $this->addDominioAction->execute($request->validated());
+
+        DB::transaction(function () use ($webapp, $validated) {
+
+            $webapp->update($validated);
+
+            if ($webapp->wasChanged('image_id')) {
+                AppVariable::where('app_id', $webapp->id)->delete();
+                StoreAppVariablesAction::execute($webapp);
+            }
+
+        });
+
+        return redirect()->route('webapps.show', $webapp)
+            ->with('alert-success', 'App atualizado com sucesso.');
     }
 
 
     public function store(WebappRequest $request)
     {
+        $validated = $this->addDominioAction->execute($request->validated());
 
-        $webapp = (new WebappService())->storeApp($request->validated());
+        $webapp = DB::transaction(function () use ($validated) {
+            $webapp =  Webapp::create($validated);
 
-        //session()->flash('alert-success', 'Solicitação enviada com sucesso. Aguarde a análise de um administrador');
-        return view('webapps.show', [
-            'webapp' => $webapp
-        ]);
+            StoreAppVariablesAction::execute($webapp);
+
+            return $webapp;
+        });
+
+        return redirect()->route('webapps.show', $webapp)
+            ->with('alert-success', 'App criado com sucesso.');
     }
 
-    public function update_image(AppUpdateRequest $request, Webapp $webapp)
-    {
-        $webapp = (new WebappService()->updateImage($webapp, $request->validated()));
-
-        return redirect("/webapps/{$webapp->id}");
-    }
-
-    public function show_variables(Webapp $webapp)
-    {
-        return view('webapps.editvariables', [
-            'webapp' => $webapp,
-            'env_variables' => $webapp->appVariables
-        ]);
-    }
-
-    public function update_variable(Webapp $webapp, AppVariable $variable, UpdateAppVariableRequest $request)
-    {
-        (new WebappService())->storeAppVariables($variable, $request->validated());
-        session()->flash('alert-success', 'Variável salva com sucesso.');
-        return redirect("/webapps/{$variable->app_id}/variables");
-    }
 }

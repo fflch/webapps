@@ -17,113 +17,99 @@ class GwmariadbService
 
     public function listarDatabase()
     {
-        $action = 'listar_databases';
-        $payload = GetGwmariadbPayload::execute($action);
-        $response = SendGwmariadbRequest::execute($payload);
-
-        return $response->json();
+        $payload = GetGwmariadbPayload::execute('listar_databases');
+        return SendGwmariadbRequest::execute($payload)->json();
+        /* $response = SendGwmariadbRequest::execute($payload); */
+        /* return $response->json(); */
     }
 
     public function listarUsuarios()
     {
-        $action = 'listar_usuarios';
-        $payload = GetGwmariadbPayload::execute($action);
-        $response = SendGwmariadbRequest::execute($payload);
-
-        return $response;
+        $payload = GetGwmariadbPayload::execute('listar_usuarios');
+        return SendGwmariadbRequest::execute($payload)->json();
+        /* $response = SendGwmariadbRequest::execute($payload); */
+        /* return $response; */
     }
 
     public function storeDatabase()
     {
-        //dd($this->userExists(), $this->databaseExists());
-        if(!$this->userExists() && !$this->databaseExists()) {
-            $response = $this->criarDatabaseUsuarioPrivilegio();
-            return $response;
+        $userExists = $this->userExists();
+        $databaseExists = $this->databaseExists();
+
+        if (!$userExists && !$databaseExists) {
+            return $this->criarDatabaseUsuarioPrivilegio();
         }
 
-        if(!$this->userExists() && $this->databaseExists()) {
+        if (!$userExists && $databaseExists) {
             $response = $this->criarUsuario();
             $this->concederPrivilegios();
             return $response;
         }
 
-        if($this->userExists() && !$this->databaseExists()) {
+        if ($userExists && !$databaseExists) {
             $response = $this->criarDatabase();
             $this->concederPrivilegios();
             return $response;
         }
 
-        if($this->userExists() && $this->databaseExists()) {
-            return false;
-        }
+        return false;
     }
 
     public function criarDatabase()
     {
-        $action = 'criar_database';
-        $payload = GetGwmariadbPayload::execute($action, $this->siteName);
-        $response = SendGwmariadbRequest::execute($payload);
-        return $response;
+        $payload = GetGwmariadbPayload::execute('criar_database', $this->siteName);
+        dd($payload);
+        return SendGwmariadbRequest::execute($payload);
     }
 
     public function trocarSenhaUsuario()
     {
-        $action = 'trocar_senha';
-        $payload = GetGwmariadbPayload::execute($action, $this->siteName);
-        $response = SendGwmariadbRequest::execute($payload);
-        return $response;
+        $payload = GetGwmariadbPayload::execute('trocar_senha', $this->siteName);
+        return SendGwmariadbRequest::execute($payload);
     }
 
     public function criarUsuario()
     {
-        $action = 'criar_usuario';
-        $payload = GetGwmariadbPayload::execute($action, $this->siteName);
-        $response = SendGwmariadbRequest::execute($payload);
-
-        return $response;
+        $payload = GetGwmariadbPayload::execute('criar_usuario', $this->siteName);
+        return SendGwmariadbRequest::execute($payload);
     }
 
     public function criarDatabaseUsuario()
     {
-        $action = 'criar_database_usuario';
-        $payload = GetGwmariadbPayload::execute($action, $this->siteName);
-        $response = SendGwmariadbRequest::execute($payload);
-
-        return $response;
+        $payload = GetGwmariadbPayload::execute('criar_database_usuario', $this->siteName);
+        dd($payload);
+        return SendGwmariadbRequest::execute($payload);
     }
 
     public function criarDatabaseUsuarioPrivilegio()
     {
-        $action = 'criar_database_usuario_privilegio';
-        $payload = GetGwmariadbPayload::execute($action, $this->siteName);
-        $response = SendGwmariadbRequest::execute($payload);
-
-        return $response;
+        $payload = GetGwmariadbPayload::execute('criar_database_usuario_privilegio', $this->siteName);
+        return SendGwmariadbRequest::execute($payload);
     }
 
     public function concederPrivilegios()
     {
-        $action = 'conceder_privilegios';
-        $payload = GetGwmariadbPayload::execute($action, $this->siteName);
-        $response = SendGwmariadbRequest::execute($payload);
-
-        return $response;
+        $payload = GetGwmariadbPayload::execute('conceder_privilegios', $this->siteName);
+        return SendGwmariadbRequest::execute($payload);
     }
 
     protected function databaseExists()
     {
-        $action = 'database_existe';
-        $payload = GetGwmariadbPayload::execute($action, $this->siteName);
+        $payload = GetGwmariadbPayload::execute('database_existe', $this->siteName);
         $response = SendGwmariadbRequest::execute($payload);
-        return $response['existe'];
+        /* return $response['existe']; */
+        return (bool) ($response->json('existe') ?? false);
     }
 
     protected function userExists()
     {
-        $action = 'usuario_existe';
-        $payload = GetGwmariadbPayload::execute($action, $this->siteName);
+        $payload = GetGwmariadbPayload::execute('usuario_existe', $this->siteName);
+        dump($payload);
         $response = SendGwmariadbRequest::execute($payload);
+        dd($response);
 
-        return $response['existe'];
+        /* return $response['existe']; */
+
+        return (bool) ($response->json('existe') ?? false);
     }
 }

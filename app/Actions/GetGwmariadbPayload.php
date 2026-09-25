@@ -4,26 +4,13 @@ namespace App\Actions;
 
 class GetGwmariadbPayload
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
+    public static function execute(string $action, string $siteName = ''): array
     {
-        //
-    }
+        $payload = ['action' => $action];
 
-    public static function execute(string $action, string $siteName = '')
-    {
-        if($siteName == ''):
-            $payload = [
-                'action' => $action
-            ];
-        else:
-            $payload = [
-                'action' => $action,
-                'nome' => $siteName
-            ];
-        endif;
+        if (!empty($siteName)) {
+            $payload['nome'] = $siteName;
+        }
 
         return $payload;
     }

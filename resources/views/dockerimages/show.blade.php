@@ -1,4 +1,4 @@
-@extends('laravel-usp-theme::master')
+@extends('main')
 @section('content')
     <div class="card p-3">
         <div>
@@ -32,8 +32,9 @@
                                         @foreach ($docker_image->imageVariables as $variable)
                                             <tr>
                                                 <td>
-                                                    <form class="d-flex justify-content-between"
-                                                        action="/dockerimages/{{ $docker_image->id }}/variable/{{ $variable->id }}"
+                                                    <form
+                                                        class="d-flex justify-content-between"
+                                                        action="{{ route('imageVariable.destroy',  $variable->id) }}"
                                                         method="post">
                                                         @csrf
                                                         @method('delete')
@@ -47,10 +48,13 @@
                                 </tbody>
                             </table>
                         </div>
-                        <form class="ml-4 w-50" action="/dockerimages/{{ $docker_image->id }}/variable/store"
+                        <form
+                            class="ml-4 w-50"
+                            action="{{ route('imageVariable.store') }}"
                             method="post">
                             @csrf
                             @method('post')
+                            <input type="hidden" name="image_id" value="{{ $docker_image->id }}">
                             <p>Adicionar variável de ambiente</p>
                             <div class="input-group mb-3">
                                 <input value="{{ old('nome') }}" type="text" name="name" class="form-control"

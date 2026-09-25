@@ -1,4 +1,4 @@
-@extends('laravel-usp-theme::master')
+@extends('main')
 @section('content')
     <div class="card">
         <div class="card-header"><b>Editar</b></div>
@@ -26,9 +26,9 @@
                                 Seleciona a imagem docker para a aplicação
                             </option>
                             @foreach ($docker_images as $image)
-                                <option @if ($webapp->docker_image_id == $image->id) selected @endif value="{{ $image->id }}">
-                                    {{ $image->name }}
-                                </option>
+                              <option value="{{ $image->id }}" @selected(old('image_id', $webapp->image_id ?? null) == $image->id)>
+                                  {{ $image->name }}
+                              </option>
                             @endforeach
                         </select>
                     </div>
@@ -44,7 +44,7 @@
 
                 <div class="row" style="margin-top:20px;">
                     <div class="col">
-                        <button class="btn btn-success" type="submit">Enviar</button>
+                        <button class="btn btn-success" type="submit">Salvar</button>
                     </div>
                 </div>
 

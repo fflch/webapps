@@ -1,4 +1,4 @@
-@extends('laravel-usp-theme::master')
+@extends('main')
 @section('content')
     <div class="card">
         <div class="col m-2">
@@ -22,7 +22,7 @@
                 </div>
                 <div class="col">
                     <div class="input-group">
-                        <button type="submit" class="btn btn-primary">salvar</button>
+                        <button type="submit" class="btn btn-success">Salvar</button>
                     </div>
                 </div>
             </form>

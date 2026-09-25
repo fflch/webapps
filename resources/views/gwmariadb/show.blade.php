@@ -1,4 +1,4 @@
-@extends('laravel-usp-theme::master')
+@extends('main')
 @section('content')
     <div class="card p-4">
         <div>

@@ -23,6 +23,7 @@ class StoreImageVariableRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'image_id' => 'required|exists:images,id',
             'name' => 'string|required'
         ];
     }

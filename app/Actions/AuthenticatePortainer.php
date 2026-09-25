@@ -6,14 +6,6 @@ use Illuminate\Support\Facades\Http;
 
 class AuthenticatePortainer
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
     public static function execute()
     {
         $portainerUrl = env('PORTAINER_URL');

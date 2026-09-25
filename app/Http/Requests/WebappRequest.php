@@ -35,7 +35,7 @@ class WebappRequest extends FormRequest
             'name.required' => 'O domínio é obrigatório.',
             'justificativa.required' => 'A justificativa é obrigatória.',
             'image_id' => 'A imagem do app é obrigatória.',
-            'version.required' => 'A versão da imagme é obrigatória.'
+            'version.required' => 'A versão da imagem é obrigatória.'
         ];
     }
 

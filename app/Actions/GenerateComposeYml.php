@@ -8,14 +8,6 @@ use Symfony\Component\Yaml\Yaml;
 
 class GenerateComposeYml
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
     public static function execute(DockerImage $dockerImage, Webapp $webapp)
     {
         $env_variables = $webapp->appVariables;

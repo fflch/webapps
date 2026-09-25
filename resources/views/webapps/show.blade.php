@@ -1,4 +1,4 @@
-@extends('laravel-usp-theme::master')
+@extends('main')
 @section('content')
     <p class="card-text"><a href="/webapps/{{ $webapp->id }}">{{ $webapp->dominio }}</a></p>
 
@@ -30,7 +30,7 @@
     </div>
     <div class="mb-3">
         <a class="btn btn-primary" href="/webapps/{{ $webapp->id }}/edit">Alterar imagem docker</a>
-        <a class="btn btn-primary" href="/webapps/{{ $webapp->id }}/variables">Configurar variáveis de
+        <a class="btn btn-primary" href="{{ route('appVariable.show', $webapp->id) }}">Configurar variáveis de
             ambiente</a>
         @if ($webapp->status == 'Solicitado')
             <a href="/portainer/{{ $webapp->id }}/store" class="btn btn-primary">Publicar aplicação</a>

@@ -19,6 +19,7 @@ class SendGwmariadbRequest
         $response = Http::withHeaders([
             'X-Token' => env('GWMARIADB_TOKEN'),
         ])->post(env('GWMARIADB_URL'), $payload);
+        dump($response);
 
         return $response->json();
     }

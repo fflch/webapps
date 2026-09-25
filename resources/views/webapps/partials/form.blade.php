@@ -42,7 +42,7 @@
 
 <div class="row" style="margin-top:20px;">
     <div class="col">
-        <button class="btn btn-success" type="submit">Enviar</button>
+        <button class="btn btn-success" type="submit">Salvar</button>
     </div>
 </div>
 

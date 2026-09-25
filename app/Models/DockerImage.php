@@ -13,9 +13,9 @@ class DockerImage extends Model
      */
     protected $table = 'images';
 
-    protected $fillable = ['path', 'tag', 'env_variables'];
+    protected $fillable = ['name', 'path'];
 
-    public function apps() 
+    public function apps()
     {
         return $this->hasMany(Webapp::class, 'image_id', 'id');
     }

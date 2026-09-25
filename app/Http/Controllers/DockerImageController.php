@@ -4,19 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DockerImageRequest;
 use App\Http\Requests\DockerImageUpdateRequest;
-use App\Http\Requests\StoreImageVariableRequest;
 use App\Models\DockerImage;
-use App\Services\DockerImageService;
-use App\Services\ImageVariableService;
-use App\Models\ImageVariable;
 
 class DockerImageController extends Controller
 {
+
     public function index()
     {
-        $dockerImages = (new DockerImageService())->getAllDockerImages();
         return view('dockerimages.index', [
-            'docker_images' => $dockerImages
+            'docker_images' => DockerImage::all()
         ]);
     }
 
@@ -34,8 +30,8 @@ class DockerImageController extends Controller
 
     public function store(DockerImageRequest $request)
     {
-        $dockerImage = (new DockerImageService())->createDockerImage($request->validated());
-        return redirect("/dockerimages/{$dockerImage->id}");
+        $dockerImage = DockerImage::create($request->validated());
+        return redirect()->route('dockerimages.show', $dockerImage);
     }
 
     public function edit(DockerImage $dockerimage)
@@ -47,42 +43,23 @@ class DockerImageController extends Controller
 
     public function update(DockerImageUpdateRequest $request, DockerImage $dockerimage)
     {
-        $dockerImage = (new DockerImageService())->updateDockerImage($dockerimage, $request->validated());
-        return redirect("/dockerimages/{$dockerImage->id}");
+        $dockerimage->update($request->validated());
+        return redirect()->route('dockerimages.show', $dockerimage)
+            ->with('alert-success', 'Imagem atualizada.');
     }
 
     public function destroy(DockerImage $dockerimage)
     {
-        $deleted = (new DockerImageService())->destroyDockerImage($dockerimage);
-
-        if($deleted) {
-            return redirect("/dockerimages");
+        try {
+            $dockerimage->delete();
+            return redirect()->route('dockerimages.index')
+                             ->with('alert-success', 'Imagem excluída.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Erro específico de banco de dados (como chave estrangeira)
+            return back()->with('alert-danger', 'Não é possível excluir esta imagem pois ela possui variáveis vinculadas.');
+        } catch (\Exception $e) {
+            return back()->withErrors('alert-danger','Falha ao excluir a imagem.');
         }
     }
 
-    public function store_variable(string $imageId, StoreImageVariableRequest $request)
-    {
-
-        (new ImageVariableService())->storeVariable($imageId, $request->validated());
-
-        return redirect("/dockerimages/{$imageId}");
-    }
-
-        public function update_variable(ImageVariable $variable, StoreImageVariableRequest $request)
-    {
-        $imageId = $variable->image->id;
-        
-        (new ImageVariableService())->updateVariable($variable, $request->validated());
-
-        return redirect("/dockerimages/{$imageId}");
-    }
-
-    public function destroy_variable(string $variableId) 
-    {
-        $variable = (new ImageVariableService())->getImageVariableById($variableId);
-        $imageId = $variable->image->id;
-        $variable->delete();
-
-        return redirect("/dockerimages/{$imageId}");
-    }
 }
