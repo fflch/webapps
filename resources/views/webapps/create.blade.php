@@ -1,10 +1,9 @@
-@extends('laravel-usp-theme::master')
+@extends('main')
 @section('content')
     <div class="card shadow-sm">
         <div class="card-header fw-bold"><b>Solicitação</b></div>
         <div class="card-body">
-            <form method="post" action="/webapps/store">
-                @method('post')
+          <form method="post" action="{{ route('webapps.store') }}">
                 @csrf
                 @include('webapps.partials.form')
             </form>

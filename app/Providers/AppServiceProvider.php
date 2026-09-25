@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('admins', function($user){
             $admins = explode(',', trim(config('webapps.admins')));
             //terá que ser algum outro parâmetro, pois há a possibilidade de logar no sistema sem codpes.
-            return in_array($user->codpes ?? $user->id, $admins); 
+            return in_array($user->codpes ?? $user->id, $admins);
         });
     }
 
@@ -24,6 +24,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
     }
 }

@@ -123,4 +123,8 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'dbname' => '{{mariadb_name}}',
+    'dbhost' => '{{mariadb_host}}',
+    'dbpassword' => '{{mariadb_password}}',
+    'dbuser' => '{{mariadb_user}}'
 ];

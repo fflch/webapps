@@ -6,10 +6,37 @@ use Illuminate\Database\Eloquent\Model;
 
 class Webapp extends Model
 {
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'apps';
+
     protected $guarded = ['id'];
-    
-    public function user(){
-        return $this->belongsTo(User::class, 'user_id');
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
+    public function appVariables()
+    {
+        return $this->hasMany(AppVariable::class, 'app_id', 'id');
+    }
+
+    public function dockerImage()
+    {
+        return $this->belongsTo(DockerImage::class, 'image_id', 'id');
+    }
+
+    public function Bucket()
+    {
+        return $this->hasMany(Bucket::class, 'app_id', 'id');
+    }
+
+    public function AppDatabase()
+    {
+        return $this->hasOne(AppDatabase::class, 'app_id', 'id');
+    }
 }

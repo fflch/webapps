@@ -1,5 +1,5 @@
-@extends('laravel-usp-theme::master')
+@extends('main')
 
 @section('content')
-Webapps
+  Webapps
 @endsection('content')

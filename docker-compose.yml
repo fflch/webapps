@@ -77,9 +77,23 @@ services:
     networks:
       - webapps-network
 
+  gwmariadb:
+    image: ghcr.io/fflch/gwmariadb:latest
+    container_name: webapps_gwmariadb
+    depends_on:
+      - mariadb
+    networks:
+      - webapps-network
+    environment:
+      TOKEN: 123
+      DB_HOST: mariadb
+      DB_NAME: admin
+      DB_USER: admin
+      DB_PASS: admin
+      DB_PORT: 3306
+
 networks:
   webapps-network:
 
 volumes:
   mariadb_data:
-

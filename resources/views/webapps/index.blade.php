@@ -1,4 +1,4 @@
-@extends('laravel-usp-theme::master')
+@extends('main')
 @section("content")
 <div class="card">
     <div class="card-header"><h3>Apps</h3></div>
