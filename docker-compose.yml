@@ -92,8 +92,24 @@ services:
       DB_PASS: admin
       DB_PORT: 3306
 
+  garage:
+    image: dxflrs/garage:v2.3.0
+    container_name: webapps_garage
+    restart: unless-stopped
+    ports:
+        - "3900:3900"
+        - "3903:3903"
+    volumes:
+        - garage_data:/data
+        - ./docker/garage/garage.toml:/etc/garage.toml:ro
+    environment:
+        - RUST_LOG=info
+    networks:
+      - webapps-network
+
 networks:
   webapps-network:
 
 volumes:
   mariadb_data:
+  garage_data:
