@@ -1,19 +1,19 @@
 @extends('main')
 @section('content')
     <div class="card">
-        <div>
-            <p>Atualize a imagem: {{ $docker_image->name }}</p>
+        <div class="card-header">
+            <h1>{{ $docker_image->name }}</h1>
         </div>
-        <div>
-            <form action="/dockerimages/{{ $docker_image->id }}" method="post">
+        <div class="card-body">
+            <form class="d-flex align-items-end" action="/dockerimages/{{ $docker_image->id }}" method="post">
                 @method('patch')
                 @csrf
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">Imagem docker:</span>
+                <div class="w-25">
+                    <span class="mb-2">Imagem docker:</span>
                     <input type="text" class="form-control" value="{{ old('path', $docker_image->path) }}" name="path"
                         placeholder="ghcr.io/caminho/nome_da_imagem">
                 </div>
-                <button type="submit" class="btn btn-primary">salvar</button>
+                <button type="submit" class="btn btn-success ml-2">salvar</button>
             </form>
         </div>
     </div>

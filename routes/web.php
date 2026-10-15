@@ -23,6 +23,7 @@ Route::resource('appVariable', AppVariableController::class)->only(['update']);
 Route::get('appVariable/{webapp}', [AppVariableController::class, 'show'])->name('appVariable.show');
 
 Route::resource('dockerimages', DockerImageController::class);
+Route::get('dockerimages/{dockerimage}/variables', [DockerImageController::class, 'variables'])->name('dockerimages.variables');
 Route::resource('imageVariable', ImageVariableController::class)->only(['store', 'destroy']);
 
 Route::prefix('gwmariadb')->group(function () {

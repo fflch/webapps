@@ -8,7 +8,7 @@ class AddDominioAction
 {
     public function execute(array $validated): array
     {
-        $validated['dominio'] = $validated['name'] . 'fflch.usp.br';
+        $validated['dominio'] = $validated['name'] . '.fflch.usp.br';
         $validated['user_id'] = Auth::id();
 
         return $validated;

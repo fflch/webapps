@@ -30,8 +30,8 @@ class DockerImageController extends Controller
 
     public function store(DockerImageRequest $request)
     {
-        $dockerImage = DockerImage::create($request->validated());
-        return redirect()->route('dockerimages.show', $dockerImage);
+        DockerImage::create($request->validated());
+        return redirect()->route('dockerimages.index');
     }
 
     public function edit(DockerImage $dockerimage)
@@ -60,6 +60,17 @@ class DockerImageController extends Controller
         } catch (\Exception $e) {
             return back()->withErrors('alert-danger','Falha ao excluir a imagem.');
         }
+    }
+
+    public function variables(DockerImage $dockerimage)
+    {
+        return view(
+            'dockerimages.editvariables',
+            [
+                'variables' => $dockerimage->imageVariables,
+                'image' => $dockerimage
+            ]
+        );
     }
 
 }

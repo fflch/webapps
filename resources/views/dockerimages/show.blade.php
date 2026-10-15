@@ -32,9 +32,8 @@
                                         @foreach ($docker_image->imageVariables as $variable)
                                             <tr>
                                                 <td>
-                                                    <form
-                                                        class="d-flex justify-content-between"
-                                                        action="{{ route('imageVariable.destroy',  $variable->id) }}"
+                                                    <form class="d-flex justify-content-between"
+                                                        action="{{ route('imageVariable.destroy', $variable->id) }}"
                                                         method="post">
                                                         @csrf
                                                         @method('delete')
@@ -48,10 +47,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <form
-                            class="ml-4 w-50"
-                            action="{{ route('imageVariable.store') }}"
-                            method="post">
+                        <form class="ml-4 w-50" action="{{ route('imageVariable.store') }}" method="post">
                             @csrf
                             @method('post')
                             <input type="hidden" name="image_id" value="{{ $docker_image->id }}">

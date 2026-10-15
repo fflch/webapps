@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreImageVariableRequest;
+use App\Models\DockerImage;
 use App\Models\ImageVariable;
 
 class ImageVariableController extends Controller
 {
-
     public function store(StoreImageVariableRequest $request)
     {
         ImageVariable::create($request->validated());
@@ -16,10 +16,9 @@ class ImageVariableController extends Controller
 
     public function destroy(ImageVariable $imageVariable)
     {
-        $imageId = $imageVariable->image_id;
+        $image = $imageVariable->image;
         $imageVariable->delete();
 
-        return redirect()->route('dockerimages.show', $imageId);
+        return redirect()->route('dockerimages.variables', $image);
     }
-
 }

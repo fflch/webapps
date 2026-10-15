@@ -1,11 +1,11 @@
 @extends('main')
 @section('content')
     <div class="card">
-        <div class="col m-2">
-            <p><b>Adicionar nova imagem:</b></p>
+        <div class="card-header col">
+            <h1>Adicionar nova imagem:</h1>
         </div>
-        <div>
-            <form action="/dockerimages" method="post" class="card w-50 pt-2 pb-2 m-2">
+        <div class="card-body">
+            <form action="/dockerimages" method="post" class="w-50">
                 @method('post')
                 @csrf
                 <div class="col">
