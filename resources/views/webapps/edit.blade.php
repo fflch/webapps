@@ -18,6 +18,13 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col">
+                        <label><b>Justificativa</b></label>
+                        <textarea class="form-control" name="justificativa">{{ old('justificativa', $webapp->justificativa) }}</textarea>
+                    </div>
+                </div>
+
                 <div class="row mb-3 mt-3">
                     <div class="col">
                         <label><b>Imagem</b></label>
@@ -26,9 +33,9 @@
                                 Seleciona a imagem docker para a aplicação
                             </option>
                             @foreach ($docker_images as $image)
-                              <option value="{{ $image->id }}" @selected(old('image_id', $webapp->image_id ?? null) == $image->id)>
-                                  {{ $image->name }}
-                              </option>
+                                <option value="{{ $image->id }}" @selected(old('image_id', $webapp->image_id ?? null) == $image->id)>
+                                    {{ $image->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
