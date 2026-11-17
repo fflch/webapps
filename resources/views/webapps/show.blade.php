@@ -37,8 +37,11 @@
                     </p>
                 </div>
                 <div class="card-body d-flex flex-column">
-                    @if (empty($webapp->Bucket))
-                        <a href="" class="btn btn-primary">Ver dados bucket</a>
+                    @if ($webapp->Bucket->id)
+                        <p>Nome: {{ $webapp->Bucket->name}} </p>
+                        <p>Chave: {{ $webapp->Bucket->key_name}} </p>
+                        <p>Id: {{ $webapp->Bucket->key_id}} </p>
+                        <p>Secret: {{ $webapp->Bucket->key_secret}} </p>
                     @else  
                         <form class="d-flex flex-column" action="{{ route('bucket.store') }}" method="post">
                             @csrf
