@@ -83,4 +83,11 @@ class WebappController extends Controller
             ->with('alert-success', 'App criado com sucesso.');
     }
 
+    public function databases(Webapp $webapp)
+    {
+        return view('webapps.databases', [
+            'webapp' => $webapp
+        ]);
+    }
+
 }

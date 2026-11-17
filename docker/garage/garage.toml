@@ -13,6 +13,6 @@ s3_region = "garage"
 api_bind_addr = "[::]:3900"
 
 [admin]
-admin_bind_addr = "[::]:3903"
+api_bind_addr = "[::]:3903"
 admin_token = "VZrc7jXDTBB2nnfbn1StJgItrxDju4MpOBEspAsmbtw="
 metrics_token = "754OL7vxbJ5+uyXsBoNkpPDyxPiTghjkv/btECa0Uvw="

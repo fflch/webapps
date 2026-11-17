@@ -32,7 +32,7 @@ class Webapp extends Model
 
     public function Bucket()
     {
-        return $this->hasMany(Bucket::class, 'app_id', 'id');
+        return $this->hasOne(Bucket::class, 'app_id', 'id');
     }
 
     public function AppDatabase()

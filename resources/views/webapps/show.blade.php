@@ -6,11 +6,11 @@
         </div>
         <div class="card-body">
             <b>Domínio: </b>
-            <p>{{ $webapp->dominio}}</p>
+            <p>{{ $webapp->dominio }}</p>
             <b>Imagem:</b>
             <p>{{ $webapp->dockerImage->name }}</p>
             <b>Versão:</b>
-            <p>{{ $webapp->version  }}</p>
+            <p>{{ $webapp->version }}</p>
             <b>Justificativa:</b>
             <p class="card-text">{{ $webapp->justificativa }}</p>
             <b>Solicitante: </b>
@@ -25,13 +25,8 @@
                     </p>
                 </div>
                 <div class="card-body d-flex flex-column">
-                    @if (!$webapp->AppDatabase)
-                        <a href="/webapps/{{ $webapp->id }}/database/store" class="btn btn-primary">Criar bancos de
-                            dados</a>
-                    @else
-                        <a href="/gwmariadb/{{ $webapp->AppDatabase->id }}" class="btn btn-primary mb-3">Ver banco de dados</a>
-                        <a href="/gwmariadb/testconnection" class="btn btn-secondary">Testar conexão</a>
-                    @endif
+                    <a href="{{ route('webapps.databases', $webapp) }}" class="btn btn-primary">Gerenciar bancos de
+                        dados</a>
                     <br>
                 </div>
             </div>
@@ -42,9 +37,20 @@
                     </p>
                 </div>
                 <div class="card-body d-flex flex-column">
-                    <a href="/bucket/store/{{ $webapp->id }}" class="btn btn-primary mb-3">Criar Bucket</a>
-                    <a href="/bucket/show/{{ $webapp->id }}" class="btn btn-primary mb-3">Ver dados bucket</a>
-                    <a href="/bucket/delete/{{ $webapp->id }}" class="btn btn-danger">Excluir bucket</a>
+                    @if ($webapp->Bucket->id)
+                        <p>Nome: {{ $webapp->Bucket->name}} </p>
+                        <p>Chave: {{ $webapp->Bucket->key_name}} </p>
+                        <p>Id: {{ $webapp->Bucket->key_id}} </p>
+                        <p>Secret: {{ $webapp->Bucket->key_secret}} </p>
+                    @else  
+                        <form class="d-flex flex-column" action="{{ route('bucket.store') }}" method="post">
+                            @csrf
+                            @method('POST')
+                            <input type="hidden" name="app_id" value="{{ $webapp->id }}">
+                            <input type="hidden" name="app_name" value="{{ $webapp->name }}">
+                            <button type="submit" class="btn btn-primary">Criar Bucket</button>
+                        </form>
+                    @endif
                     <br>
                 </div>
             </div>
@@ -56,7 +62,8 @@
                 </div>
                 <div class="card-body d-flex flex-column">
                     <a class="btn btn-primary mb-3" href="/webapps/{{ $webapp->id }}/edit">Alterar imagem docker</a>
-                    <a class="btn btn-primary mb-3" href="{{ route('appVariable.show', $webapp->id) }}">Configurar variáveis de
+                    <a class="btn btn-primary mb-3" href="{{ route('appVariable.show', $webapp->id) }}">Configurar
+                        variáveis de
                         ambiente</a>
                     @if ($webapp->status == 'Solicitado')
                         <a href="/portainer/{{ $webapp->id }}/store" class="btn btn-primary">Publicar aplicação</a>
