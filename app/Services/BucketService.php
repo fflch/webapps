@@ -18,7 +18,7 @@ class BucketService
 
     private function client(): PendingRequest
     {
-        return Http::baseUrl(config('webapps.s3_endpoint_url'))
+        return Http::baseUrl(config('webapps.s3_api_url'))
             ->withToken(config('webapps.s3_token'))
             ->acceptJson()
             ->asJson()
@@ -53,7 +53,7 @@ class BucketService
 
         return [
             'access_key_id' => $keyResponse['accessKeyId'],
-            'secretAccessKey' => $keyResponse['secretAccessKey']
+            'secret_access_key' => $keyResponse['secretAccessKey']
         ];
     }
 
