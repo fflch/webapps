@@ -145,11 +145,11 @@ services:
       - garage
 
     volumes:
-      - ./garage.toml:/etc/garage.toml:ro
+      - ./docker/garage/garage.toml:/etc/garage.toml:ro
 
     environment:
-      API_BASE_URL: "http://127.0.0.1:3903"
-      S3_ENDPOINT_URL: "http://127.0.0.1:3900"
+      API_BASE_URL: "http://webapps_garage:3903"
+      S3_ENDPOINT_URL: "http://webapps_garage:3900"
 
     ports:
       - "3909:3909"

@@ -8,7 +8,7 @@ use App\Services\AppDatabaseService;
 use Illuminate\Support\Facades\Http;
 use App\Models\Webapp;
 
-class GwmariadbController extends Controller
+class GwdbController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,15 +19,7 @@ class GwmariadbController extends Controller
 
         dd($response);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      */
@@ -35,9 +27,10 @@ class GwmariadbController extends Controller
     {
         /* dump('gw-store', $webapp); */
         $siteName = $webapp->name;
+        $appId = $webapp->id;
 
         $response = (new GwmariadbService($siteName))->storeDatabase();
-        if($response == false) {
+        if ($response == false) {
             return redirect("/webapps/{$appId}");
         }
         $appDatabase = (new AppDatabaseService())->storeDatabaseData($webapp, $response['senha']);
@@ -57,7 +50,8 @@ class GwmariadbController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $appId) {
+    public function edit(string $appId)
+    {
 
         return view('gwmariadb.edit');
     }
@@ -74,7 +68,7 @@ class GwmariadbController extends Controller
 
         (new AppDatabaseService())->updateDatabasePassword($appdatabase, $response['senha']);
 
-        return redirect("/gwmariadb/{$appdatabase->id}");
+        return redirect("/gwdb/{$appdatabase->id}");
     }
 
     /**
