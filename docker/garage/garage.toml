@@ -5,13 +5,14 @@ db_engine = "sqlite"
 
 replication_factor = 1
 
-rpc_bind_addr = "0.0.0.0:3901"
-rpc_secret = "0000000000000000000000000000000000000000000000000000000000000000"
+rpc_bind_addr = "[::]:3901"
+rpc_secret = "b1720667cfc1d566bcc01d2eaa8089a5b6eafd22a33f40fa21daa0150d9e569a"
 
 [s3_api]
 s3_region = "garage"
-api_bind_addr = "0.0.0.0:3900"
+api_bind_addr = "[::]:3900"
 
 [admin]
-admin_bind_addr = "0.0.0.0:3903"
-admin_token = "admin-super-seguro"
+admin_bind_addr = "[::]:3903"
+admin_token = "VZrc7jXDTBB2nnfbn1StJgItrxDju4MpOBEspAsmbtw="
+metrics_token = "754OL7vxbJ5+uyXsBoNkpPDyxPiTghjkv/btECa0Uvw="
