@@ -137,7 +137,7 @@ services:
       - webapps-network
 
   garage-webui:
-    image: genebit/garage-webui:latest
+    image: khairul169/garage-webui:latest
     container_name: garage-webui
     restart: unless-stopped
 
@@ -148,8 +148,9 @@ services:
       - ./docker/garage/garage.toml:/etc/garage.toml:ro
 
     environment:
-      API_BASE_URL: "http://webapps_garage:3903"
-      S3_ENDPOINT_URL: "http://webapps_garage:3900"
+      API_BASE_URL: "http://garage:3903"
+      S3_ENDPOINT_URL: "http://garage:3900"
+      AUTH_USER_PASS: "admin:$$2y$$10$$0//aw0Y24O7L8T1bwcYxwuX2HgXhy0LQagkLBGoK8pC.RAd67d5Ui" #admin:SuperSenha
 
     ports:
       - "3909:3909"
