@@ -37,17 +37,14 @@
                     </p>
                 </div>
                 <div class="card-body d-flex flex-column">
-                    @if ($webapp->Bucket != null)
-                        <p>Nome: {{ $webapp->Bucket->name}} </p>
-                        <p>Chave: {{ $webapp->Bucket->key_name}} </p>
-                        <p>Id: {{ $webapp->Bucket->key_id}} </p>
-                        <p>Secret: {{ $webapp->Bucket->key_secret}} </p>
-                    @else  
-                        <form class="d-flex flex-column" action="{{ route('bucket.store') }}" method="post">
+                  @isset ($webapp->Bucket->key_id)
+                        <p>Nome: {{ $webapp->Bucket->bucket_name}} </p>
+                        <p>Key Id: {{ $webapp->Bucket->key_id}} </p>
+                        <p>Key Secret: {{ $webapp->Bucket->key_secret}} </p>
+                    @else
+                    <form class="d-flex flex-column" action="{{ route('bucket.store', $webapp->id) }}" method="post">
                             @csrf
                             @method('POST')
-                            <input type="hidden" name="app_id" value="{{ $webapp->id }}">
-                            <input type="hidden" name="app_name" value="{{ $webapp->name }}">
                             <button type="submit" class="btn btn-primary">Criar Bucket</button>
                         </form>
                     @endif

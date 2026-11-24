@@ -23,7 +23,7 @@ class CreateBucketRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'app_id' => 'string|required',
+            'app_id' => 'integer|required',
             'app_name' => 'string|required'
         ];
     }

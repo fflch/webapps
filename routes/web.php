@@ -30,12 +30,7 @@ Route::resource('imageVariable', ImageVariableController::class)->only(['store',
 Route::resource('gwdb', GwdbController::class)->only(['edit', 'store', 'create', 'destroy']);
 Route::get('gwdb/testconnection', [GwdbController::class, 'test_connection'])->name('gwdb.testconnection');
 
-Route::prefix('bucket')->group(function() {
-    Route::get('/test', [BucketController::class, 'test_connection']);
-    Route::get('/{bucket}', [BucketController::class, 'show']);
-    Route::post('/', [BucketController::class, 'store'])->name('bucket.store');
-    Route::delete('/{bucket}', [BucketController::class, 'destroy']);
-});
+Route::post('/bucket/{webapp}', [BucketController::class, 'store'])->name('bucket.store');
 
 Route::prefix('portainer')->group(function() {
     Route::get('/', [PortainerController::class, 'index']);
