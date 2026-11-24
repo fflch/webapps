@@ -37,7 +37,7 @@
                     </p>
                 </div>
                 <div class="card-body d-flex flex-column">
-                    @if ($webapp->Bucket->id)
+                    @if ($webapp->Bucket != null)
                         <p>Nome: {{ $webapp->Bucket->name}} </p>
                         <p>Chave: {{ $webapp->Bucket->key_name}} </p>
                         <p>Id: {{ $webapp->Bucket->key_id}} </p>
