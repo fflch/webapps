@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bucket extends Model
 {
-    protected $fillable = ['name', 'key', 'secret'];
+    protected $fillable = ['app_id', 'bucket_id', 'bucket_name', 'key_id', 'key_secret'];
 
     public function App()
     {

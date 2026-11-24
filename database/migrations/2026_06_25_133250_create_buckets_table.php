@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('buckets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('app_id')->constrained();
-            $table->string('name');
-            $table->string('key');
-            $table->string('secret');
+            $table->string('bucket_id');
+            $table->string('bucket_name');
+            $table->string('key_id');
+            $table->string('key_secret');
             $table->timestamps();
         });
     }

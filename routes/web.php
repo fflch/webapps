@@ -1,22 +1,22 @@
 <?php
 
 use App\Http\Controllers\DockerImageController;
-use App\Http\Controllers\GwmariadbController;
 use App\Http\Controllers\WebappController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\PortainerController;
 use App\Http\Controllers\BucketController;
 use App\Http\Controllers\ImageVariableController;
 use App\Http\Controllers\AppVariableController;
+use App\Http\Controllers\GwdbController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [IndexController::class, 'index']);
 
 Route::resource('webapps', WebappController::class)->except('destroy');
 # Rotas adicionais para o webapp
-Route::prefix('webapps')->name('webapps.')->group(function() {
-    Route::get('/{webapp}/database/store', [GwmariadbController::class, 'store'])->name('database.store');
-    Route::get('/{webapp}/bucket/store', [BucketController::class, 'store']);
+Route::prefix('webapps')->group(function() {
+    Route::get('/{webapp}/databases', [WebappController::class, 'databases'])->name('webapps.databases');
+    Route::get('/{webapp}/buckets', [WebappController::class, 'buckets']);
 });
 
 Route::resource('appVariable', AppVariableController::class)->only(['update']);
@@ -24,21 +24,13 @@ Route::get('appVariable/{webapp}', [AppVariableController::class, 'show'])->name
 
 Route::resource('dockerimages', DockerImageController::class);
 Route::get('dockerimages/{dockerimage}/variables', [DockerImageController::class, 'variables'])->name('dockerimages.variables');
+
 Route::resource('imageVariable', ImageVariableController::class)->only(['store', 'destroy']);
 
-Route::prefix('gwmariadb')->group(function () {
-    Route::get('/', [GwmariadbController::class, 'index']);
-    Route::get('/testconnection', [GwmariadbController::class, 'test_connection']);
-    Route::get('/{appdatabase}', [GwmariadbController::class, 'show']);
-    Route::put('/{appdatabase}/update', [GwmariadbController::class, 'update']);
-    Route::delete('/{appdatabase}', [GwmariadbController::class, 'destroy']);
-});
+Route::resource('gwdb', GwdbController::class)->only(['edit', 'store', 'create', 'destroy']);
+Route::get('gwdb/testconnection', [GwdbController::class, 'test_connection'])->name('gwdb.testconnection');
 
-Route::prefix('bucket')->group(function() {
-    Route::get('/test', [BucketController::class, 'test_connection']);
-    Route::get('/{bucket}', [BucketController::class, 'show']);
-    Route::delete('/{bucket}', [BucketController::class, 'destroy']);
-});
+Route::post('/bucket/{webapp}', [BucketController::class, 'store'])->name('bucket.store');
 
 Route::prefix('portainer')->group(function() {
     Route::get('/', [PortainerController::class, 'index']);
