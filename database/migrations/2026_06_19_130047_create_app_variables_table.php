@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('app_id')->constrained();
             $table->foreignId('image_variable_id')->constrained()->cascadeOnDelete();
             $table->string('value')->nullable();
+            $table->unique(['app_id', 'image_variable_id']);
             $table->timestamps();
         });
     }
