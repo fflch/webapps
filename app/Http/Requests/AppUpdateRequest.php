@@ -23,7 +23,7 @@ class AppUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
+            'name' => 'required|unique:apps,name',
             'justificativa' => 'required',
             'image_id' => 'required',
             'version' => 'required'
@@ -33,6 +33,7 @@ class AppUpdateRequest extends FormRequest
     public function messages(){
         return [
             'name.required' => 'O domínio é obrigatório.',
+            'name.unique' => 'Este nome já está em uso',
             'justificativa' => 'A justificativa é obrigatória.',
             'image_id' => 'A imagem do app é obrigatória.',
             'version.required' => 'A versão da imagme é obrigatória.'

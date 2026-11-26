@@ -1,8 +1,9 @@
 @extends('main')
 @section('content')
     <div class="card">
-        <div class="card-header">
+        <div class="card-header d-flex justify-content-between">
             <h3>Imagens</h3>
+            <a class="btn btn-success" href="{{ route('dockerimages.create') }}">Nova Imagem</a>
         </div>
         <div class="card-body">
             <div class="row">

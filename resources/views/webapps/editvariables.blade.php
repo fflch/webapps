@@ -1,10 +1,15 @@
 @extends('main')
 @section('content')
-<div>
-  <div>
+<div class="card">
+  <div class="card-header d-flex justify-content-between">
       <h1>{{ $webapp->dominio }}</h1>
+      @if ($hasAllVariables == false)
+        <form action="{{ route('appVariable.refresh', $webapp) }}" method="get">
+          <button class="btn btn-danger" type="submit">Atualizar variáveis</button>
+        </form>
+      @endif
   </div>
-  <div>
+  <div class="card-body">
     <div class="w-50">
       @if ($webapp->appVariables->isNotEmpty())
         <p>Configure as variáveis de ambiente da aplicação:</p>

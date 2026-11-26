@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('apps', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('dominio');
+            $table->string('name')->unique();
+            $table->string('dominio')->unique();
             $table->string('justificativa');
             $table->string('version');
             $table->foreignId('user_id')->constrained();
