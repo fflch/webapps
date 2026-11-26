@@ -1,7 +1,10 @@
 @extends('main')
 @section("content")
 <div class="card">
-    <div class="card-header"><h3>Apps</h3></div>
+    <div class="card-header d-flex justify-content-between">
+        <h3>Apps</h3>
+        <a class="btn btn-success" href="{{ route('webapps.create') }}">Novo App</a>
+    </div>
     <div class="card-body">
         <div class="row">
             <table class="table table-stripped table-hover">
